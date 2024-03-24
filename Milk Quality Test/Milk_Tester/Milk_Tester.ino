@@ -61,6 +61,66 @@ void setup() {
 }
 
 void loop() {
+
+  unsigned long currentMillis = millis();
+
+  if (!hasStarted) {
+    // Read the state of the button to start the process
+    int reading = digitalRead(buttonPin);
+    if (reading != lastButtonState) {
+      lastDebounceTime = millis();
+    }
+
+    if ((millis() - lastDebounceTime) > debounceDelay) {
+      if (reading != buttonState) {
+        buttonState = reading;
+
+        if (buttonState == LOW) {
+          hasStarted = true;
+          lcd.clear();
+        }
+      }
+    }
+
+    lastButtonState = reading;
+  } else {
+    if (currentMillis - previousMillis >= interval) {
+      previousMillis = currentMillis;
+
+      // Read the state of the button
+      int reading = digitalRead(buttonPin);
+
+      // Check for button press
+      if (reading != lastButtonState) {
+        lastDebounceTime = millis();
+      }
+
+      if ((millis() - lastDebounceTime) > debounceDelay) {
+        if (reading != buttonState) {
+          buttonState = reading;
+
+          if (buttonState == LOW) {
+            // Increment press count
+            handleButtonPress();
+          }
+        }
+      }
+
+      lastButtonState = reading;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
   
 }
 
