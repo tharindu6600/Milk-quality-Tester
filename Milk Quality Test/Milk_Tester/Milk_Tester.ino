@@ -59,3 +59,77 @@ void setup() {
   lcd.setCursor(0, 0);
   lcd.print("Press to start");
 }
+
+void loop() {
+  
+}
+
+void readAndDisplayPH() {
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Place PH sensor in milk");
+  delay(5000);
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Press to read pH");
+
+  // Handle button press
+  void handleButtonPress() {
+    // Increment press count
+    static int pressCount = 0;
+    pressCount++;
+
+    // Display different sensor values based on the press count
+    if (pressCount == 1) {
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("Loading PH value...");
+      delay(2000); // Adjust this delay as needed for loading time
+
+      int buffer_arr[10];
+      int temp;
+      int avgval = 0;
+
+      for (int i = 0; i < 10; i++) { 
+        buffer_arr[i] = analogRead(phPin);
+        delay(30);
+      }
+      
+      for (int i = 0; i < 9; i++) {
+        for (int j = i + 1; j < 10; j++) {
+          if (buffer_arr[i] > buffer_arr[j]) {
+            temp = buffer_arr[i];
+            buffer_arr[i] = buffer_arr[j];
+            buffer_arr[j] = temp;
+          }
+        }
+      }
+
+      for (int i = 2; i < 8; i++)
+        avgval += buffer_arr[i];
+      
+      float volt = (float)avgval * 5.0 / 1024 / 6; 
+      float ph_act = -5.70 * volt + calibration_value;
+
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("pH: ");
+      lcd.print(ph_act, 2);
+
+      // Check if pH is within the acceptable range
+      if (ph_act >= 6.4 && ph_act <= 6.8) {
+        lcd.setCursor(0, 1);
+        lcd.print("Good");
+        strcpy(phStatus, "Good");
+      } else if(ph_act >= 6.2 && ph_act <= 6.4){
+        lcd.setCursor(0, 1);
+        lcd.print("Average");
+        strcpy(phStatus, "Average");
+      } else {
+        lcd.setCursor(0, 1);
+        lcd.print("Bad");
+        strcpy(phStatus, "Bad");
+      }
+    }
+  }
+}
