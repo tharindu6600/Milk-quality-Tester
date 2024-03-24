@@ -133,3 +133,38 @@ void readAndDisplayPH() {
     }
   }
 }
+
+void readAndDisplayMethane() {
+  int methaneSum = 0;
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Loading...");
+
+  // Delay for loading time
+  delay(2000); // Adjust this delay as needed for loading time
+
+  // Read and sum up 10 methane values
+  for (int i = 0; i < 10; i++) {
+    int methaneValue = analogRead(methanePin);
+    methaneSum += methaneValue;
+    delay(100); // Delay between readings, adjust as needed
+  }
+
+  // Calculate average methane value
+  int avgMethane = methaneSum / 10;
+
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Methane: ");
+  lcd.print(avgMethane);
+
+  // Display methane status
+  if (avgMethane <= 200) {
+    lcd.setCursor(0, 1);
+    lcd.print("Good");
+    strcpy(metStatus, "Good");
+  } else {
+    lcd.setCursor(0, 1);
+    lcd.print("Bad");
+    strcpy(metStatus, "Bad");
+}
