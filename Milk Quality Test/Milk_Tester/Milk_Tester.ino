@@ -61,7 +61,6 @@ void setup() {
 }
 
 void loop() {
-
   unsigned long currentMillis = millis();
 
   if (!hasStarted) {
@@ -111,17 +110,55 @@ void loop() {
   }
 }
 
+void handleButtonPress() {
+  // Increment press count
+  static int pressCount = 0;
+  pressCount++;
 
+  // Display different sensor values based on the press count
+  switch (pressCount) {
+    case 1:
+      // Read and display pH sensor value
+      readAndDisplayPH();
+      break;
+    case 2:
+      // Display loading message and delay
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("place turbidity sensor");
+      lcd.print("Loading...");
 
+      delay(2000); // Adjust this delay as needed for loading time
 
+      // Read and display turbidity sensor value
+      readAndDisplayTurbidity();
+      break;
+    case 3:
+      // Read and display methane sensor value
+      readAndDisplayMethane();
+      break;
+    case 4:
+      // Display loading message and delay
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("Loading...");
 
+      delay(2000); // Adjust this delay as needed for loading time
 
-
-
-
-
-
-  
+      // Read and display temperature sensor value
+      readAndDisplayTemperature();
+      break;
+    case 5:
+      // Display result message
+      displayResult();
+      break;
+    case 6:
+      // Reset press count for next cycle
+      pressCount = 0;
+      break;
+    default:
+      break;
+  }
 }
 
 void readAndDisplayPH() {
