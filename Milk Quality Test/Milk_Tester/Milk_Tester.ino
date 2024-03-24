@@ -168,3 +168,34 @@ void readAndDisplayMethane() {
     lcd.print("Bad");
     strcpy(metStatus, "Bad");
 }
+
+void readAndDisplayTemperature() {
+  int temperatureSum = 0;
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Loading...");
+
+  // Delay for loading time
+  delay(2000); // Adjust this delay as needed for loading time
+
+  // Read and sum up 10 temperature values
+  for (int i = 0; i < 10; i++) {
+    sensors.requestTemperatures();
+    float temperatureC = sensors.getTempCByIndex(0);
+    temperatureSum += temperatureC;
+    delay(100); // Delay between readings, adjust as needed
+  }
+
+  // Calculate average temperature value
+  float avgTemperature = temperatureSum / 10;
+
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Temperature: ");
+  lcd.print(avgTemperature);
+  lcd.print(" C");
+
+  // Display temperature status
+  // Add your conditions for temperature status here
+}
+}
