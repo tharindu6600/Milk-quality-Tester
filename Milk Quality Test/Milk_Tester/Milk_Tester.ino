@@ -259,3 +259,19 @@ void readAndDisplayTemperature() {
   // Add your conditions for temperature status here
 }
 }
+
+void displayResult() {
+  char milkStatus[7];
+
+  if(strcmp(phStatus, "Good") == 0 && strcmp(TurStatus, "Good") == 0 && strcmp(metStatus, "Good") == 0){
+    strcpy(milkStatus, "Good");   
+  }else if((strcmp(phStatus, "Average") == 0 || strcmp(phStatus, "Good") == 0) && (strcmp(TurStatus, "Average") == 0 || strcmp(TurStatus, "Good") == 0) && (strcmp(metStatus, "Average") == 0 || strcmp(metStatus, "Good") == 0)){
+    strcpy(milkStatus, "Average"); 
+  }else{
+    strcpy(milkStatus, "Bad");  
+  }
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Result: ");
+  lcd.print(milkStatus);
+}
