@@ -9,11 +9,11 @@ Components Required:
 2. pH sensor
 3. Methane sensor
 4. Temperature sensor (e.g., DS18B20)
-5. Lactometer
-6. LCD display
-7. Vero board/Breadboard and jumper wires
-8. Power source (e.g., battery or power adapter)
-9. Keypad
+5. LCD display
+6. Vero board/Breadboard and jumper wires
+7. Lactometer
+18. Power source (e.g., battery or power adapter)
+19. Keypad
 
 Circuit Design:
 
